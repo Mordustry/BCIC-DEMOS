@@ -28,7 +28,7 @@ API_KEY = "69895fd7b944e9d19889e17c44ced1de"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 
 # Cities we want to compare
-cities = ["London", "Tokyo", "New York", "Sydney", "Dubai"]
+cities = ["London", "Tokyo", "New York", "Sydney", "Dubai", "Paris", "Bangkok", "Moscow", "Rio de Janeiro", "Cape Town"]
 
 
 # ============================================
@@ -97,15 +97,19 @@ for city in cities:
         print(f"❌ Failed to get temperature for {city}")
 
 
+
 # ============================================
 # STEP 5: CREATE THE VISUALIZATION
 # ============================================
+#sort temperatures list from least to greatest and sort city names list in the same order
+temperatures, city_names = zip(*sorted(zip(temperatures, city_names)))
+
 # TODO: Create a figure with size 10x6
 plt.figure(figsize=(10, 6))
 
 
 # TODO: Create a bar chart
-plt.bar(city_names, temperatures, color='skyblue', edgecolor='navy')
+plt.bar(city_names, temperatures, color='gold', edgecolor='navy')
 
 
 # TODO: Add labels for x-axis and y-axis
@@ -114,11 +118,12 @@ plt.ylabel('Temperature (°C)', fontsize=12)
 
 
 # TODO: Add a title to the chart
-plt.title('The Current Temperatures Around the World', fontsize=16)
+plt.title('The Current Temperatures of my World', fontsize=16)
 
 
 # TODO: Add temperature values on top of each bar
 # Use a for loop with enumerate(temperatures)
+
 for i, temp in enumerate(temperatures):
     plt.text(i, temp + 0.5, f'{temp:.1f}°C', ha='center')
 
