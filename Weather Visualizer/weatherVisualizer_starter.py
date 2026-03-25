@@ -14,16 +14,15 @@ Date: [Today's Date]
 # ============================================
 # STEP 1: IMPORT LIBRARIES
 # ============================================
-# TODO: Import the requests library (for API calls)
-# TODO: Import matplotlib.pyplot as plt (for charts)
-
+import requests
+import matplotlib.pyplot as plt
 
 
 # ============================================
 # STEP 2: CONFIGURATION
 # ============================================
 # TODO: Replace with your actual API key from OpenWeatherMap
-API_KEY = "your_api_here"
+API_KEY = "69895fd7b944e9d19889e17c44ced1de"
 
 # Base URL for the weather API
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
@@ -54,16 +53,15 @@ def get_temperature(city_name):
     
     try:
         # TODO: Make the API request using requests.get()
-        # Hint: requests.get(BASE_URL, params=params)
-        response = None  # Replace this with your code
+        response = requests.get(BASE_URL, params=params)
         
         # TODO: Convert the response to JSON (a Python dictionary)
         # Hint: use .json() method
-        data = None  # Replace this with your code
+        data = response.json()
         
         # TODO: Extract the temperature from the data
         # Hint: Look at data['main']['temp']
-        temperature = None  # Replace this with your code
+        temperature = data['main']['temp']
         
         return temperature
     
@@ -90,45 +88,51 @@ print("🌍 Fetching weather data...\n")
 
 # Your loop here:
 for city in cities:
-    # Your code here
-    pass
+    temp = get_temperature(city)
+    if temp is not None:
+        city_names.append(city)
+        temperatures.append(temp)
+        print(f"✅ {city}: {temp:.1f}°C")
+    else:
+        print(f"❌ Failed to get temperature for {city}")
 
 
 # ============================================
 # STEP 5: CREATE THE VISUALIZATION
 # ============================================
 # TODO: Create a figure with size 10x6
-# Hint: plt.figure(figsize=(10, 6))
+plt.figure(figsize=(10, 6))
 
 
 # TODO: Create a bar chart
-# Hint: plt.bar(city_names, temperatures, color='skyblue', edgecolor='navy')
+plt.bar(city_names, temperatures, color='skyblue', edgecolor='navy')
 
 
 # TODO: Add labels for x-axis and y-axis
-# Hint: plt.xlabel('City', fontsize=12)
-#       plt.ylabel('Temperature (°C)', fontsize=12)
+plt.xlabel('City', fontsize=12)
+plt.ylabel('Temperature (°C)', fontsize=12)
 
 
 # TODO: Add a title to the chart
-# Hint: plt.title('Current Temperatures Around the World', fontsize=16)
+plt.title('The Current Temperatures Around the World', fontsize=16)
 
 
 # TODO: Add temperature values on top of each bar
-# Hint: Use a for loop with enumerate(temperatures)
-#       plt.text(i, temp + 0.5, f'{temp:.1f}°C', ha='center')
+# Use a for loop with enumerate(temperatures)
+for i, temp in enumerate(temperatures):
+    plt.text(i, temp + 0.5, f'{temp:.1f}°C', ha='center')
 
 
 # TODO: Make the chart look nice with a grid
-# Hint: plt.grid(axis='y', alpha=0.3)
+plt.grid(axis='y', alpha=0.3)
 
 
 # TODO: Use tight_layout to prevent labels from being cut off
-# Hint: plt.tight_layout()
+plt.tight_layout()
 
 
 # TODO: Display the chart
-# Hint: plt.show()
+plt.show()
 
 
 # ============================================
