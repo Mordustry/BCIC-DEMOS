@@ -16,7 +16,7 @@ Date: [Today's Date]
 # ============================================
 import requests
 import matplotlib.pyplot as plt
-
+from datetime import datetime
 
 # ============================================
 # STEP 2: CONFIGURATION
@@ -48,7 +48,7 @@ def get_temperature(city_name):
     params = {
         'q': city_name,           # City name
         'appid': API_KEY,         # Your API key
-        'units': 'metric'         # Get temperature in Celsius
+        'units': 'imperial'         # Get temperature in Celsius
     }
     
     try:
@@ -92,7 +92,7 @@ for city in cities:
     if temp is not None:
         city_names.append(city)
         temperatures.append(temp)
-        print(f"✅ {city}: {temp:.1f}°C")
+        print(f"✅ {city}: {temp:.1f}°F")
     else:
         print(f"❌ Failed to get temperature for {city}")
 
@@ -111,21 +111,30 @@ plt.figure(figsize=(10, 6))
 # TODO: Create a bar chart
 plt.bar(city_names, temperatures, color='gold', edgecolor='navy')
 
-
 # TODO: Add labels for x-axis and y-axis
 plt.xlabel('City', fontsize=12)
-plt.ylabel('Temperature (°C)', fontsize=12)
+plt.ylabel('Temperature (°F)', fontsize=12)
 
 
 # TODO: Add a title to the chart
 plt.title('The Current Temperatures of my World', fontsize=16)
+
+#6. Add a subtitle showing the current date/time
+
+current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+plt.suptitle(f'Updated: {current_time}', fontsize=12, y=0.95)
+
+# 7. Calculate and display the average temperature as a horizontal line
+avg = sum(temperatures) / len(temperatures)
+plt.axhline(avg, color='red', linestyle='--', label=f'Avg: {avg:.1f}°F')
+plt.legend()
 
 
 # TODO: Add temperature values on top of each bar
 # Use a for loop with enumerate(temperatures)
 
 for i, temp in enumerate(temperatures):
-    plt.text(i, temp + 0.5, f'{temp:.1f}°C', ha='center')
+    plt.text(i, temp + 0.5, f'{temp:.1f}°F', ha='center')
 
 
 # TODO: Make the chart look nice with a grid
